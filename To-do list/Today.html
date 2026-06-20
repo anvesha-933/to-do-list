@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Today's Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #F5F5DC);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input, button {
+            padding: 8px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f4f4f4;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background: red;
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .date-text {
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Today's Tasks</h2>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <input type="date" id="dateInput">
+        <button onclick="addTask()">Add</button>
+    </div>
+
+    <ul id="todayList"></ul>
+</div>
+
+<script>
+    const taskInput = document.getElementById("taskInput");
+    const dateInput = document.getElementById("dateInput");
+    const todayList = document.getElementById("todayList");
+
+    function addTask() {
+        if (taskInput.value.trim() === "" || dateInput.value === "") return;
+
+        const today = new Date().toISOString().split("T")[0];
+
+        if (dateInput.value === today) {
+            const li = document.createElement("li");
+
+            const taskText = document.createElement("span");
+              deleteBtn.onclick = function() {
+                li.remove();
+            };
+
+            li.appendChild(taskText);
+            li.appendChild(deleteBtn);
+
+            todayList.appendChild(li);
+        } else {
+            alert("This task is not for today!");
+        }
+
+        taskInput.value = "";
+        dateInput.value = "";
+    }      taskText.textContent = taskInput.value;
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.classList.add("delete-btn");
+
+    
+
+    taskInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>

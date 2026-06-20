@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upcoming Tasks</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background:#F5F5DC;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 350px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f4f4f4;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        .delete-btn {
+            background: red;
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Upcoming Tasks</h2>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button onclick="addTask()">Add</button>
+    </div>
+
+    <input type="text" id="searchInput" placeholder="Search upcoming task..." onkeyup="searchTask()">
+
+    <ul id="taskList"></ul>
+</div>
+
+<script>
+    const taskInput = document.getElementById("taskInput");
+    const taskList = document.getElementById("taskList");
+    const searchInput = document.getElementById("searchInput");
+
+    function addTask() {
+        if (taskInput.value.trim() === "") return;
+
+        const li = document.createElement("li");
+        li.textContent = taskInput.value;
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn");
+
+        deleteBtn.onclick = function(e) {
+            e.stopPropagation();
+            li.remove();
+        };
+
+        li.appendChild(deleteBtn);
+        taskList.appendChild(li);
+
+        taskInput.value = "";
+    }
+
+    function searchTask() {
+        const filter = searchInput.value.toLowerCase();
+        const tasks = document.querySelectorAll("#taskList li");
+
+        tasks.forEach(task => {
+            const text = task.firstChild.textContent.toLowerCase();
+            task.style.display = text.includes(filter) ? "flex" : "none";
+        });
+    }
+
+    taskInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>

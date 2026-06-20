@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right,#F5F5DC);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: white;
+            width: 420px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 8px;
+        }
+
+        button {
+            padding: 8px 12px;
+            border: none;
+            background: #667eea;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        .section-title {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #f4f4f4;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .delete-btn {
+            background: red;
+            font-size: 12px;
+            padding: 4px 8px;
+        }
+
+        .completed-text {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Task Manager</h2>
+
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter task">
+        <button onclick="addTask()">Add</button>
+    </div>
+
+    <div class="section-title">Pending Tasks</div>
+    <ul id="pendingList"></ul>
+
+    <div class="section-title">Completed Tasks</div>
+    <ul id="completedList"></ul>
+</div>
+
+<script>
+    const taskInput = document.getElementById("taskInput");
+    const pendingList = document.getElementById("pendingList");
+    const completedList = document.getElementById("completedList");
+
+    function addTask() {
+        if (taskInput.value.trim() === "") return;
+
+        const li = document.createElement("li");
+
+        const leftDiv = document.createElement("div");
+        leftDiv.classList.add("task-left");
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+
+        const span = document.createElement("span");
+        span.textContent = taskInput.value;
+
+        leftDiv.appendChild(checkbox);
+        leftDiv.appendChild(span);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "Delete";
+        deleteBtn.classList.add("delete-btn");
+
+        deleteBtn.onclick = function(e) {
+            e.stopPropagation();
+            li.remove();
+        };
+
+        li.appendChild(leftDiv);
+        li.appendChild(deleteBtn);
+
+        checkbox.addEventListener("change", function() {
+            if (checkbox.checked) {
+                span.classList.add("completed-text");
+                completedList.appendChild(li);
+            } else {
+                span.classList.remove("completed-text");
+                pendingList.appendChild(li);
+            }
+        });
+
+        pendingList.appendChild(li);
+        taskInput.value = "";
+    }
+
+    taskInput.addEventListener("keypress", function(e) {
+        if (e.key === "Enter") {
+            addTask();
+        }
+    });
+</script>
+
+</body>
+</html>
